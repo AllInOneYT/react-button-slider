@@ -2,8 +2,8 @@
 
 Wrap all your buttons or any component in react-button-slider and it will be horizontally scrollable without any scrollbar
 
-![Example](https://drive.google.com/file/d/1CK85t9jzbater42QeO70LAGVhpZrUYa1/view?usp=sharing)
-![Example1](https://drive.google.com/file/d/16xkDfdRIc6Xrv2KYmXFsFc-AY15TrGnL/view?usp=sharing)
+![Example](https://drive.google.com/uc?export=view&id=1CK85t9jzbater42QeO70LAGVhpZrUYa1)
+![Example](https://drive.google.com/uc?export=view&id=16xkDfdRIc6Xrv2KYmXFsFc-AY15TrGnL)
 
 ### Installation
 
