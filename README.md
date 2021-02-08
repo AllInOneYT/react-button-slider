@@ -52,7 +52,7 @@ export default App;
 
 ### Props
 
-**Children: any**
-
-**overscrollTransition: string = 'all 0.2s ease'**
-css transition property
+| Name                 | Type     | Default         | Description              |
+| -------------------- | -------- | --------------- | ------------------------ |
+| Children             | `any`    |                 | any component or element |
+| overscrollTransition | `string` | `all 0.2s ease` | css transition property  |
