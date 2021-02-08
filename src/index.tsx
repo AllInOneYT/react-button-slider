@@ -8,6 +8,7 @@ import React, {
 
 interface Props {
   children: any;
+  overscrollTransition?: string;
 }
 
 interface Ref {
@@ -18,7 +19,7 @@ interface Ref {
 }
 
 const index = (props: Props) => {
-  const { children } = props;
+  const { children, overscrollTransition = 'all 0.2s ease' } = props;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const ref = useRef<Ref>({
@@ -77,11 +78,11 @@ const index = (props: Props) => {
         -1;
 
       if (translate > 0 || maxTranslate === 0) {
-        containerRef.current.style.transition = 'all 0.2s ease';
+        containerRef.current.style.transition = overscrollTransition;
         setTranslate(0);
         ref.current.prevTranslate = 0;
       } else if (translate < maxTranslate) {
-        containerRef.current.style.transition = 'all 0.2s ease';
+        containerRef.current.style.transition = overscrollTransition;
         setTranslate(maxTranslate);
         ref.current.prevTranslate = maxTranslate;
       } else {

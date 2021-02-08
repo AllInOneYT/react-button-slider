@@ -8,6 +8,8 @@
     "removeComments": true,
     "declaration": true,
     "esModuleInterop": true,
+    "allowJs": false,
+    "strict": true,
     "jsx": "react",
     "lib": ["esnext", "dom"]
   },

@@ -1,5 +1,9 @@
 ### react-button-slider
 
+<a href="https://www.npmjs.com/package/@gunawanedy/react-button-slider" target="\_parent">
+  <img alt="" src="https://img.shields.io/npm/dt/@gunawanedy/react-button-slider" />
+</a>
+
 Wrap all your buttons or any component in react-button-slider and it will be horizontally scrollable without any scrollbar
 
 ![Example](https://drive.google.com/uc?export=view&id=1CK85t9jzbater42QeO70LAGVhpZrUYa1)
@@ -48,4 +52,7 @@ export default App;
 
 ### Props
 
-Children: any
+**Children: any**
+
+**overscrollTransition: string = 'all 0.2s ease'**
+css transition property
