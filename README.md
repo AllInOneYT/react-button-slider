@@ -26,13 +26,11 @@ import React from 'react';
 
 import ReactButtonSlider from '@gunawanedy/react-button-slider';
 
-// only for styling the button and content
-import './scss/test.scss';
-
 const App = () => {
   return (
     <>
       <ReactButtonSlider>
+        {/*you can add styling for your button*/}
         <button>Category 1</button>
         <button>Category 2</button>
         <button>Category 3</button>
