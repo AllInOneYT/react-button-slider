@@ -18,6 +18,18 @@ interface Ref {
   innerWidth: number;
 }
 
+const disableScroll = (): void => {
+  const body: HTMLElement = document.body;
+  body.style.height = '100%';
+  body.style.overflow = 'hidden';
+};
+
+const enableScroll = (): void => {
+  const body: HTMLElement = document.body;
+  body.style.height = 'auto';
+  body.style.overflow = 'auto';
+};
+
 const index = (props: Props) => {
   const { children, overscrollTransition = 'all 0.2s ease' } = props;
 
@@ -33,9 +45,11 @@ const index = (props: Props) => {
 
   useEffect(() => {
     const handleResize = () => {
-      setTranslate(0);
-      ref.current.prevTranslate = 0;
-      ref.current.innerWidth = window.innerWidth;
+      if (window.innerWidth != ref.current.innerWidth) {
+        setTranslate(0);
+        ref.current.prevTranslate = 0;
+        ref.current.innerWidth = window.innerWidth;
+      }
     };
 
     window.addEventListener('resize', handleResize);
@@ -45,18 +59,6 @@ const index = (props: Props) => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
-  const disableScroll = (): void => {
-    const body: HTMLElement = document.body;
-    body.style.height = '100%';
-    body.style.overflow = 'hidden';
-  };
-
-  const enableScroll = (): void => {
-    const body: HTMLElement = document.body;
-    body.style.height = 'auto';
-    body.style.overflow = 'auto';
-  };
 
   useEffect(() => {
     if (isDragging && ref.current.isTouch) {
@@ -116,12 +118,8 @@ const index = (props: Props) => {
   };
 
   return (
-    <div
-      className="react-button-slider__wrapper"
-      style={{ height: '100%', width: '100%', overflow: 'hidden' }}
-    >
+    <div style={{ height: '100%', width: '100%', overflow: 'hidden' }}>
       <div
-        className="react-button-slider"
         style={{
           height: '100%',
           display: 'flex',
