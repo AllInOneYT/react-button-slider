@@ -40,8 +40,31 @@ const index = (props: Props) => {
 
     window.addEventListener('resize', handleResize);
 
-    return (): void => window.removeEventListener('resize', handleResize);
+    return (): void => {
+      enableScroll();
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
+
+  const disableScroll = (): void => {
+    const body: HTMLElement = document.body;
+    body.style.height = '100%';
+    body.style.overflow = 'hidden';
+  };
+
+  const enableScroll = (): void => {
+    const body: HTMLElement = document.body;
+    body.style.height = 'auto';
+    body.style.overflow = 'auto';
+  };
+
+  useEffect(() => {
+    if (isDragging && ref.current.isTouch) {
+      disableScroll();
+    } else {
+      enableScroll();
+    }
+  }, [isDragging]);
 
   const getPositionX = (e: any): number =>
     e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
@@ -53,7 +76,7 @@ const index = (props: Props) => {
       containerRef.current &&
       containerRef.current.scrollWidth - containerRef.current.offsetWidth !== 0
     ) {
-      ref.current.isDragging = true;
+      setIsDragging(true);
       containerRef.current.style.transition = 'all 0s';
       ref.current.startPos = getPositionX(e);
     }
@@ -62,7 +85,7 @@ const index = (props: Props) => {
   const touchMove = (
     e: MouseEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>
   ): void => {
-    if (ref.current.isDragging) {
+    if (isDragging) {
       const currentPosition = getPositionX(e);
       setTranslate(
         ref.current.prevTranslate + currentPosition - ref.current.startPos
@@ -71,8 +94,8 @@ const index = (props: Props) => {
   };
 
   const touchEnd = (): void => {
-    if (containerRef.current && ref.current.isDragging) {
-      ref.current.isDragging = false;
+    if (containerRef.current && isDragging) {
+      setIsDragging(false);
 
       const maxTranslate =
         (containerRef.current.scrollWidth - containerRef.current.offsetWidth) *
@@ -104,8 +127,14 @@ const index = (props: Props) => {
           display: 'flex',
           transform: `translateX(${translate}px)`,
         }}
-        onTouchStart={touchStart}
-        onMouseDown={touchStart}
+        onTouchStart={(e) => {
+          ref.current.isTouch = true;
+          touchStart(e);
+        }}
+        onMouseDown={(e) => {
+          ref.current.isTouch = false;
+          touchStart(e);
+        }}
         onTouchEnd={touchEnd}
         onMouseUp={touchEnd}
         onMouseLeave={touchEnd}
