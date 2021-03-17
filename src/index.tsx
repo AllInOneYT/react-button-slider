@@ -12,7 +12,7 @@ interface Props {
 }
 
 interface Ref {
-  isDragging: boolean;
+  isTouch: boolean;
   startPos: number;
   prevTranslate: number;
   innerWidth: number;
@@ -23,12 +23,13 @@ const index = (props: Props) => {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const ref = useRef<Ref>({
-    isDragging: false,
+    isTouch: false,
     startPos: 0,
     prevTranslate: 0,
     innerWidth: window.innerWidth,
   });
   const [translate, setTranslate] = useState<number>(0);
+  const [isDragging, setIsDragging] = useState<Boolean>(false);
 
   useEffect(() => {
     const handleResize = () => {
