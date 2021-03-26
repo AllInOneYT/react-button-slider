@@ -31,7 +31,7 @@ const enableScroll = (): void => {
 };
 
 const index = (props: Props) => {
-  const { children, overscrollTransition = 'all 0.2s ease' } = props;
+  const { children, overscrollTransition = 'all 0.2s ease-out' } = props;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const ref = useRef<Ref>({
@@ -79,7 +79,7 @@ const index = (props: Props) => {
       containerRef.current.scrollWidth - containerRef.current.offsetWidth !== 0
     ) {
       setIsDragging(true);
-      containerRef.current.style.transition = 'all 0s';
+      containerRef.current.style.transition = 'all 50ms ease-out';
       ref.current.startPos = getPositionX(e);
     }
   };
@@ -123,7 +123,7 @@ const index = (props: Props) => {
         style={{
           height: '100%',
           display: 'flex',
-          transform: `translateX(${translate}px)`,
+          transform: `translate3d(${translate}px, 0, 0)`,
         }}
         onTouchStart={(e) => {
           ref.current.isTouch = true;
