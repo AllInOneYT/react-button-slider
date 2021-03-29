@@ -15,5 +15,5 @@
   },
   "include": ["src"],
   "files": ["src/index.tsx"],
-  "exclude": ["./lib", "node_modules"]
+  "exclude": ["./lib", "node_modules", "./src/App.tsx"]
 }

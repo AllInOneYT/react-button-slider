@@ -16,6 +16,7 @@ interface Ref {
   startPos: number;
   prevTranslate: number;
   innerWidth: number;
+  velX: number;
 }
 
 const disableScroll = (): void => {
@@ -30,8 +31,24 @@ const enableScroll = (): void => {
   body.style.overflow = 'auto';
 };
 
-const index = (props: Props) => {
-  const { children, overscrollTransition = 'all 0.2s ease-out' } = props;
+const getPositionX = (e: any): number =>
+  e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+
+const usePrevious = (n: number): number => {
+  const ref = useRef<{ last: number }>({ last: 0 });
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.last = n;
+    }
+  }, [n]);
+  return ref.current.last;
+};
+
+const Index = (props: Props) => {
+  const {
+    children,
+    overscrollTransition = 'all .3s cubic-bezier(.25,.8,.5,1)',
+  } = props;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const ref = useRef<Ref>({
@@ -39,9 +56,11 @@ const index = (props: Props) => {
     startPos: 0,
     prevTranslate: 0,
     innerWidth: window.innerWidth,
+    velX: 0,
   });
   const [translate, setTranslate] = useState<number>(0);
   const [isDragging, setIsDragging] = useState<Boolean>(false);
+  const lastTranslate: number = usePrevious(translate);
 
   useEffect(() => {
     const handleResize = () => {
@@ -61,15 +80,34 @@ const index = (props: Props) => {
   }, []);
 
   useEffect(() => {
+    const vel: number = ref.current.velX;
+    const accelerated: number = vel * 2;
+    if (Math.abs(accelerated) > 0.5) {
+      if (containerRef.current) {
+        containerRef.current.style.transition =
+          'all .3s cubic-bezier(.25,.8,.5,1)';
+      }
+      if (Math.abs(vel) > 20) {
+        if (vel > 0) {
+          ref.current.velX = 20;
+        } else {
+          ref.current.velX = -20;
+        }
+      } else {
+        ref.current.velX *= 0.9;
+      }
+      setTranslate((prev) => prev + accelerated);
+      touchEnd();
+    }
+  }, [ref.current.velX]);
+
+  useEffect(() => {
     if (isDragging && ref.current.isTouch) {
       disableScroll();
     } else {
       enableScroll();
     }
   }, [isDragging]);
-
-  const getPositionX = (e: any): number =>
-    e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
 
   const touchStart = (
     e: MouseEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>
@@ -79,7 +117,7 @@ const index = (props: Props) => {
       containerRef.current.scrollWidth - containerRef.current.offsetWidth !== 0
     ) {
       setIsDragging(true);
-      containerRef.current.style.transition = 'all 50ms ease-out';
+      containerRef.current.style.transition = 'none 0s ease 0s';
       ref.current.startPos = getPositionX(e);
     }
   };
@@ -96,9 +134,7 @@ const index = (props: Props) => {
   };
 
   const touchEnd = (): void => {
-    if (containerRef.current && isDragging) {
-      setIsDragging(false);
-
+    if (containerRef.current) {
       const maxTranslate =
         (containerRef.current.scrollWidth - containerRef.current.offsetWidth) *
         -1;
@@ -113,6 +149,10 @@ const index = (props: Props) => {
         ref.current.prevTranslate = maxTranslate;
       } else {
         ref.current.prevTranslate = translate;
+        if (isDragging) {
+          setIsDragging(false);
+          ref.current.velX = translate - lastTranslate;
+        }
       }
     }
   };
@@ -147,4 +187,4 @@ const index = (props: Props) => {
   );
 };
 
-export default index;
+export default Index;
