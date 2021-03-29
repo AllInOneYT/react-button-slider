@@ -20,13 +20,13 @@ interface Ref {
 }
 
 const disableScroll = (): void => {
-  const body: HTMLElement = document.body;
+  const { body } = document;
   body.style.height = '100%';
   body.style.overflow = 'hidden';
 };
 
 const enableScroll = (): void => {
-  const body: HTMLElement = document.body;
+  const { body } = document;
   body.style.height = 'auto';
   body.style.overflow = 'auto';
 };
@@ -44,12 +44,10 @@ const usePrevious = (n: number): number => {
   return ref.current.last;
 };
 
-const Index = (props: Props) => {
-  const {
-    children,
-    overscrollTransition = 'all .3s cubic-bezier(.25,.8,.5,1)',
-  } = props;
-
+const Index = ({
+  children,
+  overscrollTransition = 'all .3s cubic-bezier(.25,.8,.5,1)',
+}: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const ref = useRef<Ref>({
     isTouch: false,
@@ -64,7 +62,7 @@ const Index = (props: Props) => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth != ref.current.innerWidth) {
+      if (window.innerWidth !== ref.current.innerWidth) {
         setTranslate(0);
         ref.current.prevTranslate = 0;
         ref.current.innerWidth = window.innerWidth;
@@ -97,7 +95,7 @@ const Index = (props: Props) => {
         ref.current.velX *= 0.9;
       }
       setTranslate((prev) => prev + accelerated);
-      touchEnd();
+      touchEnd(true);
     }
   }, [ref.current.velX]);
 
@@ -133,8 +131,10 @@ const Index = (props: Props) => {
     }
   };
 
-  const touchEnd = (): void => {
-    if (containerRef.current) {
+  const touchEnd = (boosted: boolean = false): void => {
+    if (containerRef.current && (isDragging || boosted)) {
+      setIsDragging(false);
+
       const maxTranslate =
         (containerRef.current.scrollWidth - containerRef.current.offsetWidth) *
         -1;
@@ -149,8 +149,7 @@ const Index = (props: Props) => {
         ref.current.prevTranslate = maxTranslate;
       } else {
         ref.current.prevTranslate = translate;
-        if (isDragging) {
-          setIsDragging(false);
+        if (!boosted) {
           ref.current.velX = translate - lastTranslate;
         }
       }
@@ -159,30 +158,33 @@ const Index = (props: Props) => {
 
   return (
     <div style={{ height: '100%', width: '100%', overflow: 'hidden' }}>
-      <div
-        style={{
-          height: '100%',
-          display: 'flex',
-          transform: `translate3d(${translate}px, 0, 0)`,
-        }}
-        onTouchStart={(e) => {
-          ref.current.isTouch = true;
-          touchStart(e);
-        }}
-        onMouseDown={(e) => {
-          ref.current.isTouch = false;
-          touchStart(e);
-        }}
-        onTouchEnd={touchEnd}
-        onMouseUp={touchEnd}
-        onMouseLeave={touchEnd}
-        onTouchMove={touchMove}
-        onMouseMove={touchMove}
-        onDragStart={(e) => e.preventDefault()}
-        ref={containerRef}
-      >
-        {children}
-      </div>
+      {
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+        <div
+          style={{
+            height: '100%',
+            display: 'flex',
+            transform: `translate3d(${translate}px, 0, 0)`,
+          }}
+          onTouchStart={(e) => {
+            ref.current.isTouch = true;
+            touchStart(e);
+          }}
+          onMouseDown={(e) => {
+            ref.current.isTouch = false;
+            touchStart(e);
+          }}
+          onTouchEnd={() => touchEnd()}
+          onMouseUp={() => touchEnd()}
+          onMouseLeave={() => touchEnd()}
+          onTouchMove={touchMove}
+          onMouseMove={touchMove}
+          onDragStart={(e) => e.preventDefault()}
+          ref={containerRef}
+        >
+          {children}
+        </div>
+      }
     </div>
   );
 };

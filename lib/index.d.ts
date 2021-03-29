@@ -3,5 +3,5 @@ interface Props {
     children: any;
     overscrollTransition?: string;
 }
-declare const Index: (props: Props) => JSX.Element;
+declare const Index: ({ children, overscrollTransition, }: Props) => JSX.Element;
 export default Index;
