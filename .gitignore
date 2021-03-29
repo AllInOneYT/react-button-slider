@@ -1,6 +1,2 @@
 node_modules/
 .eslintrc.js
-
-template.html
-webpack.config.local.js
-App.tsx
