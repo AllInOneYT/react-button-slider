@@ -9,7 +9,7 @@ import React, {
 interface Props {
   children: any;
   overscrollTransition?: string;
-  dragAcceleration: number;
+  dragAcceleration?: number;
 }
 
 interface Ref {
