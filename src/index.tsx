@@ -9,6 +9,7 @@ import React, {
 interface Props {
   children: any;
   overscrollTransition?: string;
+  dragAcceleration: number;
 }
 
 interface Ref {
@@ -47,6 +48,7 @@ const usePrevious = (n: number): number => {
 const Index = ({
   children,
   overscrollTransition = 'all .3s cubic-bezier(.25,.8,.5,1)',
+  dragAcceleration = 1,
 }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const ref = useRef<Ref>({
@@ -79,8 +81,8 @@ const Index = ({
 
   useEffect(() => {
     const vel: number = ref.current.velX;
-    const accelerated: number = vel * 2;
-    if (Math.abs(accelerated) > 0.5) {
+
+    if (Math.abs(vel) > 0.5) {
       if (containerRef.current) {
         containerRef.current.style.transition =
           'all .3s cubic-bezier(.25,.8,.5,1)';
@@ -94,7 +96,7 @@ const Index = ({
       } else {
         ref.current.velX *= 0.9;
       }
-      setTranslate((prev) => prev + accelerated);
+      setTranslate((prev) => prev + vel);
       touchEnd(true);
     }
   }, [ref.current.velX]);
@@ -126,7 +128,8 @@ const Index = ({
     if (isDragging) {
       const currentPosition = getPositionX(e);
       setTranslate(
-        ref.current.prevTranslate + currentPosition - ref.current.startPos
+        ref.current.prevTranslate +
+          (currentPosition - ref.current.startPos) * dragAcceleration
       );
     }
   };

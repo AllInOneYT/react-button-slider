@@ -56,3 +56,4 @@ export default App;
 | -------------------- | -------- | ----------------------------------- | ------------------------ |
 | Children             | `any`    |                                     | any component or element |
 | overscrollTransition | `string` | `all .3s cubic-bezier(.25,.8,.5,1)` | css transition property  |
+| dragAcceleration     | `number` | `1`                                 | drag acceleration        |
