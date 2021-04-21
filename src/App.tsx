@@ -5,6 +5,18 @@ import Index from './index';
 
 ReactDOM.render(
   <>
+    <div>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, harum
+      sequi? Voluptatem, cum accusantium? Vel quasi et quam dolor inventore
+      culpa dolorem possimus quas fuga, ducimus nesciunt a, cumque ratione
+      voluptatibus commodi ab temporibus itaque, cupiditate cum minus. Incidunt
+      consequatur debitis culpa quod, maxime a doloremque eum quo neque
+      perspiciatis sed fuga nulla libero aut quia quos corrupti. Repellat nobis
+      veritatis, earum voluptatibus non rerum numquam iusto officia cum,
+      voluptate, corporis distinctio similique doloribus atque! At ipsam, illo
+      sed dolorum saepe veritatis molestiae, tempora id esse, quasi natus non
+      molestias
+    </div>
     <Index>
       <button style={{ padding: '20px 70px' }}>test</button>
       <button style={{ padding: '20px 70px' }}>test</button>
