@@ -26,7 +26,8 @@ const disableScrollY = (): void => {
 };
 
 const enableScrollY = (): void => {
-  document.documentElement.style.overflowY = 'auto';
+  // @ts-ignore: empty the style of html tag
+  document.documentElement.style = '';
 };
 
 const getPositionX = (e: any): number =>
