@@ -1,13 +1,14 @@
 {
   "name": "@gunawanedy/react-button-slider",
-  "version": "1.0.6",
+  "version": "1.3.1",
   "description": "",
   "main": "lib/index.js",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "start": "webpack serve --config webpack.config.local.js",
-    "build": "webpack --config webpack.config.prod.js"
+    "dev": "webpack serve --config webpack.config.local.js",
+    "build": "webpack --config webpack.config.prod.js",
+    "lint": "eslint --ignore-path .gitignore --ext .tsx . --fix"
   },
   "keywords": [
     "react",
@@ -33,22 +34,25 @@
     "@babel/preset-react": "^7.12.13",
     "@babel/preset-typescript": "^7.12.13",
     "@babel/runtime-corejs3": "^7.12.13",
-    "@types/react": "^17.0.1",
+    "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.14.2",
-    "@typescript-eslint/parser": "^4.14.2",
-    "autoprefixer": "^10.2.4",
+    "@typescript-eslint/eslint-plugin": "^4.19.0",
+    "@typescript-eslint/parser": "^4.19.0",
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^3.0.0",
     "core-js": "^3.8.3",
-    "eslint": "^7.19.0",
+    "eslint": "^7.23.0",
     "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-react": "^7.23.1",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "typescript": "^4.1.3",
+    "html-webpack-plugin": "^5.3.1",
+    "prettier": "2.2.1",
     "ts-loader": "^8.0.15",
+    "typescript": "^4.1.3",
     "webpack": "^5.21.1",
     "webpack-cli": "^4.5.0",
     "webpack-dev-server": "^3.11.2",
@@ -57,6 +61,5 @@
   "peerDependencies": {
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
-  },
-  "dependencies": {}
+  }
 }

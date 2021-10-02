@@ -2,6 +2,7 @@
 interface Props {
     children: any;
     overscrollTransition?: string;
+    dragAcceleration?: number;
 }
-declare const index: (props: Props) => JSX.Element;
-export default index;
+declare const Index: ({ children, overscrollTransition, dragAcceleration, }: Props) => JSX.Element;
+export default Index;
