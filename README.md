@@ -34,7 +34,7 @@ const App = () => {
   return (
     <>
       <ReactButtonSlider>
-        {/*you can add styling for your button*/}
+        {/*you can add styling for your button using css*/}
         <button>Category 1</button>
         <button>Category 2</button>
         <button>Category 3</button>
